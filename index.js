@@ -52,6 +52,10 @@ async function fetchDataForAllYears(username) {
   );
 }
 
+app.get("/", (req, res) => {
+  res.send(`memsize=${cache.memsize()}`);
+});
+
 app.get("/:username", async (req, res) => {
   try {
     const { username } = req.params;

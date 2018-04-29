@@ -4,6 +4,8 @@
   "description": "Get contribution count and data for a Github user",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "deploy": "now --public && now alias",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
