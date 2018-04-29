@@ -1,0 +1,30 @@
+{
+  "name": "github-contribution-api",
+  "version": "1.0.0",
+  "description": "Get contribution count and data for a Github user",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sallar/github-contribution-api.git"
+  },
+  "keywords": [
+    "github",
+    "contributions",
+    "api",
+    "node"
+  ],
+  "author": "Sallar Kaboli <sallar.kaboli@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sallar/github-contribution-api/issues"
+  },
+  "homepage": "https://github.com/sallar/github-contribution-api#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.3",
+    "node-fetch": "^2.1.2"
+  }
+}
