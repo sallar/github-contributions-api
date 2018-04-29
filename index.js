@@ -1,6 +1,7 @@
 const express = require("express");
 const cheerio = require("cheerio");
 const fetch = require("node-fetch");
+const cache = require("memory-cache");
 
 const app = express();
 
@@ -53,7 +54,13 @@ async function fetchDataForAllYears(username) {
 
 app.get("/:username", async (req, res) => {
   try {
-    const data = await fetchDataForAllYears(req.params.username);
+    const { username } = req.params;
+    const cached = cache.get(username);
+    if (cached !== null) {
+      return res.json(cached);
+    }
+    const data = await fetchDataForAllYears(username);
+    cache.put(username, data, 1000 * 3600); // Store for an hour
     res.json(data);
   } catch (err) {
     res.status(500).send(err);
