@@ -23,8 +23,18 @@ async function fetchDataForYear(url, year) {
   const data = await fetch(`https://github.com${url}`);
   const $ = cheerio.load(await data.text());
   $days = $("rect.day");
+  const contribText = $(".js-contribution-graph h2")
+    .text()
+    .trim()
+    .match(/^([0-9,]+)\w/);
+  let contribCount;
+  if (contribText) {
+    [contribCount] = contribText;
+    contribCount = parseInt(contribCount.replace(/,/g, ""), 10);
+  }
   return {
     year,
+    total: contribCount || 0,
     range: {
       start: $($days.get(0)).attr("data-date"),
       end: $($days.get($days.length - 1)).attr("data-date")
@@ -76,7 +86,8 @@ app.get("/v1/:username", async (req, res) => {
     cache.put(username, data, 1000 * 3600); // Store for an hour
     res.json(data);
   } catch (err) {
-    res.status(500).send(err);
+    console.error(err);
+    res.status(500).send(err.toJSON());
   }
 });
 
