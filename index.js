@@ -2,8 +2,10 @@ const express = require("express");
 const cheerio = require("cheerio");
 const fetch = require("node-fetch");
 const cache = require("memory-cache");
+const cors = require("cors");
 
 const app = express();
+app.use(cors());
 
 async function fetchYears(username) {
   const data = await fetch(`https://github.com/${username}`);
@@ -26,7 +28,7 @@ async function fetchDataForYear(url, year) {
   const contribText = $(".js-contribution-graph h2")
     .text()
     .trim()
-    .match(/^([0-9,]+)\w/);
+    .match(/^([0-9,]+)\s/);
   let contribCount;
   if (contribText) {
     [contribCount] = contribText;
