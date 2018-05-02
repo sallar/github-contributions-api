@@ -7,6 +7,14 @@ const cors = require("cors");
 const app = express();
 app.use(cors());
 
+const COLOR_MAP = {
+  "#196127": 4,
+  "#239a3b": 3,
+  "#7bc96f": 2,
+  "#c6e48b": 1,
+  "#ebedf0": 0
+};
+
 async function fetchYears(username) {
   const data = await fetch(`https://github.com/${username}`);
   const $ = cheerio.load(await data.text());
@@ -43,10 +51,12 @@ async function fetchDataForYear(url, year) {
     },
     contributions: $days.get().map(day => {
       const $day = $(day);
+      const color = $day.attr("fill");
       return {
         date: $day.attr("data-date"),
         count: parseInt($day.attr("data-count"), 10),
-        color: $day.attr("fill")
+        color,
+        intensity: COLOR_MAP[color.toLowerCase()] || 0
       };
     })
   };
