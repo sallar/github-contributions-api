@@ -1,13 +1,13 @@
 # Github Contributions API
 
-A simple API that returns number of Github contributions based on a users Github profile.
+A simple API that returns number of Github contributions based on a users Github profile. This API is used for generating an image of user contributions [in this site](https://github-contributions.now.sh/)
 
 ## Usage
 
 Send a request to the API in the following format:
 
 ```
-https://github-contributions.now.sh/v1/GITHUB_USERNAME
+https://github-contributions-api.now.sh/v1/GITHUB_USERNAME
 ```
 
 and you will receive an object with history of that user's contributions:
