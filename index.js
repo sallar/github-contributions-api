@@ -4,7 +4,7 @@ const cheerio = require("cheerio");
 const fetch = require("node-fetch");
 const cache = require("memory-cache");
 const cors = require("cors");
-const twitter = require("twitter");
+const Twitter = require("twitter");
 
 const app = express();
 app.use(cors());
