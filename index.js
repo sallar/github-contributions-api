@@ -110,7 +110,6 @@ async function getMediaUrl(base64data) {
       "https://"
     );
   } catch (err) {
-    console.log(err);
     throw new VError(err, "Uploading the image to Twitter has failed.");
   }
 }
