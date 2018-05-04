@@ -1,11 +1,21 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const cheerio = require("cheerio");
 const fetch = require("node-fetch");
 const cache = require("memory-cache");
 const cors = require("cors");
+const twitter = require("twitter");
 
 const app = express();
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+const twitterClient = new Twitter({
+  consumer_key: process.env.TWITTER_CONSUMER_KEY,
+  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+  access_token_key: process.env.TWITTER_CONSUMER_KEY,
+  access_token_secret: process.env.TWITTER_CONSUMER_KEY
+});
 
 const COLOR_MAP = {
   "#196127": 4,
@@ -83,6 +93,25 @@ async function fetchDataForAllYears(username) {
   });
 }
 
+async function getMediaUrl(base64data, res) {
+  try {
+    const media_res = await twitterClient.post("media/upload", {
+      media_data: base64data
+    });
+    const tweet_res = await twitterClient.post("statuses/update", {
+      status: "canvas",
+      media_ids: media_res.media_id_string
+    });
+    const image_url = tweet_res.entities.media[0].media_url;
+    res.json({
+      image_url
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err.toJSON());
+  }
+}
+
 app.get("/", (req, res) => {
   res.send(`memsize=${cache.memsize()}`);
 });
@@ -101,6 +130,11 @@ app.get("/v1/:username", async (req, res) => {
     console.error(err);
     res.status(500).send(err.toJSON());
   }
+});
+
+app.post("/twitter", (req, res) => {
+  const base64data = req.body.image.replace(/^data:image\/png;base64,/, "");
+  getMediaUrl(base64data, res);
 });
 
 app.listen(8080, () => {
