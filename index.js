@@ -15,8 +15,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const twitterClient = new Twitter({
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
   consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-  access_token_key: process.env.TWITTER_CONSUMER_KEY,
-  access_token_secret: process.env.TWITTER_CONSUMER_KEY
+  access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
+  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 });
 
 const COLOR_MAP = {
@@ -105,7 +105,10 @@ async function getMediaUrl(base64data) {
       status: "canvas",
       media_ids: mediaResponse.media_id_string
     });
-    return tweetResponse.entities.media[0].media_url;
+    return tweetResponse.entities.media[0].media_url.replace(
+      "http://",
+      "https://"
+    );
   } catch (err) {
     throw new VError(err, "Uploading the image to Twitter has failed.");
   }
