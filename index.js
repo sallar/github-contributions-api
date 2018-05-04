@@ -10,7 +10,7 @@ const dataUriToBuffer = require("data-uri-to-buffer");
 
 const app = express();
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 const twitterClient = new Twitter({
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
@@ -110,6 +110,7 @@ async function getMediaUrl(base64data) {
       "https://"
     );
   } catch (err) {
+    console.log(err);
     throw new VError(err, "Uploading the image to Twitter has failed.");
   }
 }
