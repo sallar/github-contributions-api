@@ -10,7 +10,11 @@ const dataUriToBuffer = require("data-uri-to-buffer");
 
 const app = express();
 app.use(cors());
-app.use(bodyParser.json());
+app.use(
+  bodyParser.json({
+    limit: "1mb"
+  })
+);
 
 const twitterClient = new Twitter({
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
