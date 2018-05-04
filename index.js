@@ -5,6 +5,8 @@ const fetch = require("node-fetch");
 const cache = require("memory-cache");
 const cors = require("cors");
 const Twitter = require("twitter");
+const VError = require("verror").WError;
+const dataUriToBuffer = require("data-uri-to-buffer");
 
 const app = express();
 app.use(cors());
@@ -93,22 +95,19 @@ async function fetchDataForAllYears(username) {
   });
 }
 
-async function getMediaUrl(base64data, res) {
+async function getMediaUrl(base64data) {
   try {
-    const media_res = await twitterClient.post("media/upload", {
-      media_data: base64data
+    const buff = dataUriToBuffer(base64data);
+    const mediaResponse = await twitterClient.post("media/upload", {
+      media_data: buff.toString("base64")
     });
-    const tweet_res = await twitterClient.post("statuses/update", {
+    const tweetResponse = await twitterClient.post("statuses/update", {
       status: "canvas",
-      media_ids: media_res.media_id_string
+      media_ids: mediaResponse.media_id_string
     });
-    const image_url = tweet_res.entities.media[0].media_url;
-    res.json({
-      image_url
-    });
+    return tweetResponse.entities.media[0].media_url;
   } catch (err) {
-    console.error(err);
-    res.status(500).send(err.toJSON());
+    throw new VError(err, "Uploading the image to Twitter has failed.");
   }
 }
 
@@ -116,7 +115,7 @@ app.get("/", (req, res) => {
   res.send(`memsize=${cache.memsize()}`);
 });
 
-app.get("/v1/:username", async (req, res) => {
+app.get("/v1/:username", async (req, res, next) => {
   try {
     const { username } = req.params;
     const cached = cache.get(username);
@@ -127,14 +126,30 @@ app.get("/v1/:username", async (req, res) => {
     cache.put(username, data, 1000 * 3600); // Store for an hour
     res.json(data);
   } catch (err) {
-    console.error(err);
-    res.status(500).send(err.toJSON());
+    next(new VError(err, "Visiting the profile has failed."));
   }
 });
 
-app.post("/v1/tweetMedia", (req, res) => {
-  const base64data = req.body.image.replace(/^data:image\/png;base64,/, "");
-  getMediaUrl(base64data, res);
+app.post("/v1/tweetMedia", (req, res, next) => {
+  const { image } = req.body;
+
+  if (typeof image !== "string") {
+    return next(new VError("No valid image uri has been specified"));
+  }
+
+  getMediaUrl(image)
+    .then(mediaUrl =>
+      res.json({
+        mediaUrl
+      })
+    )
+    .catch(next);
+});
+
+app.use((err, req, res, next) => {
+  res.status(500).send({
+    error: err.message
+  });
 });
 
 app.listen(8080, () => {
