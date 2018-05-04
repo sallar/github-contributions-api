@@ -78,30 +78,9 @@ async function fetchDataForYear(url, year) {
   };
 }
 
-async function fetchDataForAllYears(username) {
-  const years = await fetchYears(username);
-  return Promise.all(
-    years.map(year => fetchDataForYear(year.href, year.text))
-  ).then(resp => {
-    return {
-      years: resp.map(year => {
-        const { contributions, ...rest } = year;
-        return rest;
-      }),
-      contributions: resp
-        .reduce((list, curr) => [...list, ...curr.contributions], [])
-        .sort((a, b) => {
-          if (a.date < b.date) return 1;
-          else if (a.date > b.date) return -1;
-          return 0;
-        })
-    };
-  });
-}
-
-async function fetchDataForSomeYears(username, exceptionList) {
+async function fetchDataForAllYears(username, blacklist) {
   const allYears = await fetchYears(username);
-  const years = allYears.filter(year => exceptionList.indexOf(year.text) === -1);
+  const years = blacklist !== undefined ? allYears.filter(year => blacklist.indexOf(year.text) === -1) : allYears;
   return Promise.all(
     years.map(year => fetchDataForYear(year.href, year.text))
   ).then(resp => {
