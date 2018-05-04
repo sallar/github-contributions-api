@@ -132,7 +132,7 @@ app.get("/v1/:username", async (req, res) => {
   }
 });
 
-app.post("/twitter", (req, res) => {
+app.post("/v1/tweetMedia", (req, res) => {
   const base64data = req.body.image.replace(/^data:image\/png;base64,/, "");
   getMediaUrl(base64data, res);
 });
