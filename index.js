@@ -99,6 +99,28 @@ async function fetchDataForAllYears(username) {
   });
 }
 
+async function fetchDataForSomeYears(username, exceptionList) {
+  const allYears = await fetchYears(username);
+  const years = allYears.filter(year => exceptionList.indexOf(year.text) === -1);
+  return Promise.all(
+    years.map(year => fetchDataForYear(year.href, year.text))
+  ).then(resp => {
+    return {
+      years: resp.map(year => {
+        const { contributions, ...rest } = year;
+        return rest;
+      }),
+      contributions: resp
+        .reduce((list, curr) => [...list, ...curr.contributions], [])
+        .sort((a, b) => {
+          if (a.date < b.date) return 1;
+          else if (a.date > b.date) return -1;
+          return 0;
+        })
+    };
+  });
+}
+
 async function getMediaUrl(base64data) {
   try {
     const buff = dataUriToBuffer(base64data);
