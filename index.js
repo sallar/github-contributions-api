@@ -105,7 +105,10 @@ async function getMediaUrl(base64data) {
       status: "canvas",
       media_ids: mediaResponse.media_id_string
     });
-    return tweetResponse.entities.media[0].media_url;
+    return tweetResponse.entities.media[0].media_url.replace(
+      "http://",
+      "https://"
+    );
   } catch (err) {
     throw new VError(err, "Uploading the image to Twitter has failed.");
   }
