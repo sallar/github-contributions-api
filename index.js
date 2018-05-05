@@ -31,7 +31,7 @@ const COLOR_MAP = {
   "#ebedf0": 0
 };
 
-async function fetchYears(username) {
+async function fetchYears(username, blacklist) {
   const data = await fetch(`https://github.com/${username}`);
   const $ = cheerio.load(await data.text());
   return $(".js-year-link")
@@ -42,6 +42,9 @@ async function fetchYears(username) {
         href: $a.attr("href"),
         text: $a.text().trim()
       };
+    })
+    .filter(year => {
+      return blacklist !== undefined ? blacklist.indexOf(year.text) === -1 : true;
     });
 }
 
