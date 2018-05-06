@@ -4,6 +4,7 @@
   "description": "Get contribution count and data for a Github user",
   "main": "index.js",
   "scripts": {
+    "nodemon": "./node_modules/.bin/nodemon",
     "dev": "nodemon index.js",
     "start": "node index.js",
     "deploy": "now --public && now alias",
@@ -17,7 +18,8 @@
     "github",
     "contributions",
     "api",
-    "node"
+    "node",
+    "github-contribution-api"
   ],
   "author": "Sallar Kaboli <sallar.kaboli@gmail.com>",
   "license": "MIT",
