@@ -1,12 +1,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cheerio = require("cheerio");
-const fetch = require("node-fetch");
 const cache = require("memory-cache");
 const cors = require("cors");
 const Twitter = require("twitter");
 const VError = require("verror").WError;
 const dataUriToBuffer = require("data-uri-to-buffer");
+const fetchDataForAllYears = require("./fetch_data_for_all_years");
 
 const app = express();
 app.use(cors());
@@ -22,82 +21,6 @@ const twitterClient = new Twitter({
   access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 });
-
-const COLOR_MAP = {
-  "#196127": 4,
-  "#239a3b": 3,
-  "#7bc96f": 2,
-  "#c6e48b": 1,
-  "#ebedf0": 0
-};
-
-async function fetchYears(username) {
-  const data = await fetch(`https://github.com/${username}`);
-  const $ = cheerio.load(await data.text());
-  return $(".js-year-link")
-    .get()
-    .map(a => {
-      const $a = $(a);
-      return {
-        href: $a.attr("href"),
-        text: $a.text().trim()
-      };
-    });
-}
-
-async function fetchDataForYear(url, year) {
-  const data = await fetch(`https://github.com${url}`);
-  const $ = cheerio.load(await data.text());
-  $days = $("rect.day");
-  const contribText = $(".js-contribution-graph h2")
-    .text()
-    .trim()
-    .match(/^([0-9,]+)\s/);
-  let contribCount;
-  if (contribText) {
-    [contribCount] = contribText;
-    contribCount = parseInt(contribCount.replace(/,/g, ""), 10);
-  }
-  return {
-    year,
-    total: contribCount || 0,
-    range: {
-      start: $($days.get(0)).attr("data-date"),
-      end: $($days.get($days.length - 1)).attr("data-date")
-    },
-    contributions: $days.get().map(day => {
-      const $day = $(day);
-      const color = $day.attr("fill");
-      return {
-        date: $day.attr("data-date"),
-        count: parseInt($day.attr("data-count"), 10),
-        color,
-        intensity: COLOR_MAP[color.toLowerCase()] || 0
-      };
-    })
-  };
-}
-
-async function fetchDataForAllYears(username) {
-  const years = await fetchYears(username);
-  return Promise.all(
-    years.map(year => fetchDataForYear(year.href, year.text))
-  ).then(resp => {
-    return {
-      years: resp.map(year => {
-        const { contributions, ...rest } = year;
-        return rest;
-      }),
-      contributions: resp
-        .reduce((list, curr) => [...list, ...curr.contributions], [])
-        .sort((a, b) => {
-          if (a.date < b.date) return 1;
-          else if (a.date > b.date) return -1;
-          return 0;
-        })
-    };
-  });
-}
 
 async function getMediaUrl(base64data) {
   try {
