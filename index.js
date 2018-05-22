@@ -48,12 +48,14 @@ app.get("/", (req, res) => {
 app.get("/v1/:username", async (req, res, next) => {
   try {
     const { username } = req.params;
-    const cached = cache.get(username);
+    const { format } = req.query;
+    const key = `${username}-${format}`;
+    const cached = cache.get(key);
     if (cached !== null) {
       return res.json(cached);
     }
-    const data = await fetchDataForAllYears(username);
-    cache.put(username, data, 1000 * 3600); // Store for an hour
+    const data = await fetchDataForAllYears(username, format);
+    cache.put(key, data, 1000 * 3600); // Store for an hour
     res.json(data);
   } catch (err) {
     next(new VError(err, "Visiting the profile has failed."));
