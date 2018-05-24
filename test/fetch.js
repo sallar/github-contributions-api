@@ -24,26 +24,26 @@ describe("fetchDataForAllYears", () => {
   };
 
   beforeEach(() => {
-    stubFetch("/didericis", "didericis.html");
+    stubFetch("/didericis", "didericis.html.test");
     stubFetch(
       "/Didericis?tab=overview&from=2018-05-01&to=2018-05-21",
-      "didericis-2018.html"
+      "didericis-2018.html.test"
     );
     stubFetch(
       "/Didericis?tab=overview&from=2017-12-01&to=2017-12-31",
-      "didericis-2017.html"
+      "didericis-2017.html.test"
     );
     stubFetch(
       "/Didericis?tab=overview&from=2016-12-01&to=2016-12-31",
-      "didericis-2016.html"
+      "didericis-2016.html.test"
     );
     stubFetch(
       "/Didericis?tab=overview&from=2015-12-01&to=2015-12-31",
-      "didericis-2015.html"
+      "didericis-2015.html.test"
     );
     stubFetch(
       "/Didericis?tab=overview&from=2014-12-01&to=2014-12-31",
-      "didericis-2014.html"
+      "didericis-2014.html.test"
     );
   });
 
