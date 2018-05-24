@@ -1,4 +1,4 @@
-# :octocat: Github Contributions API [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/sallar/github-contributions-canvas/blob/master/LICENSE)
+# :octocat: Github Contributions API [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/sallar/github-contributions-canvas/blob/master/LICENSE) [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
 
 A simple API that returns number of Github contributions based on a users Github profile. This API is used for generating an image of user contributions [in this site](https://github-contributions.now.sh/)
 
@@ -81,3 +81,8 @@ Every release, along with the migration instructions, is documented on the Githu
 ## License
 
 [MIT license](LICENSE) © Sallar Kaboli
+
+[travis-image]: https://travis-ci.com/sallar/github-contributions-api.svg?branch=master
+[travis-url]: https://travis-ci.com/sallar/github-contributions-api
+[daviddm-image]: https://david-dm.org/sallar/github-contributions-api.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/sallar/github-contributions-api
