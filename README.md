@@ -39,6 +39,37 @@ And you will receive an object with history of that user's contributions:
 }
 ```
 
+You can return the results as an object keyed by year, month and day by using the `format=nested` query param:
+
+```
+https://github-contributions-api.now.sh/v1/GITHUB_USERNAME?format=nested
+```
+
+```json
+{
+  ...
+  "contributions": {
+     "2018": {
+       "4": {
+         "29": {
+           "date": "2018-04-29",
+           "count": 29,
+           "color": "#239a3b"
+         },
+         "39": {
+           "date": "2018-04-30",
+           "count": 2,
+           "color": "#c6e48b"
+         }
+       },
+    },
+    ...
+  }
+}
+```
+
+
+
 ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
