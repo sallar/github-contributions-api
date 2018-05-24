@@ -7,7 +7,7 @@
     "dev": "nodemon index.js",
     "start": "node index.js",
     "deploy": "now --public && now alias",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -u bdd-lazy-var/global"
   },
   "repository": {
     "type": "git",
@@ -37,6 +37,11 @@
     "verror": "^1.10.0"
   },
   "devDependencies": {
-    "nodemon": "^1.17.3"
+    "bdd-lazy-var": "^2.2.3",
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.17.3",
+    "proxyquire": "^2.0.1",
+    "sinon": "^5.0.7"
   }
 }
