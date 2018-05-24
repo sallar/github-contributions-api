@@ -5,7 +5,7 @@ const cors = require("cors");
 const Twitter = require("twitter");
 const VError = require("verror").WError;
 const dataUriToBuffer = require("data-uri-to-buffer");
-const fetchDataForAllYears = require("./fetch_data_for_all_years");
+const { fetchDataForAllYears } = require("./fetch");
 
 const app = express();
 app.use(cors());

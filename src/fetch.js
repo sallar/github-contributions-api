@@ -1,6 +1,6 @@
 const cheerio = require("cheerio");
 const fetch = require("node-fetch");
-const _ = require('lodash');
+const _ = require("lodash");
 
 const COLOR_MAP = {
   "#196127": 4,
@@ -46,9 +46,12 @@ async function fetchDataForYear(url, year, format) {
       end: $($days.get($days.length - 1)).attr("data-date")
     },
     contributions: (() => {
-      const parseDay = (day) => {
+      const parseDay = day => {
         const $day = $(day);
-        const date = $day.attr('data-date').split('-').map(d => parseInt(d));
+        const date = $day
+          .attr("data-date")
+          .split("-")
+          .map(d => parseInt(d));
         const color = $day.attr("fill");
         const value = {
           date: $day.attr("data-date"),
@@ -60,15 +63,15 @@ async function fetchDataForYear(url, year, format) {
       };
       const obj = $days.get().reduce((o, day) => {
         const { date, value } = parseDay(day);
-        const [ y, m, d] = date;
+        const [y, m, d] = date;
         if (!o[y]) o[y] = {};
         if (!o[y][m]) o[y][m] = {};
         o[y][m][d] = value;
         return o;
       }, {});
       const arr = $days.get().map(day => parseDay(day).value);
-      return format === 'nested' ? obj : arr;
-    })(),
+      return format === "nested" ? obj : arr;
+    })()
   };
 }
 
@@ -85,19 +88,22 @@ async function fetchDataForAllYears(username, format) {
           _.setWith(obj, [rest.year], rest, Object);
           return rest;
         });
-        return format === 'nested' ? obj : arr;
+        return format === "nested" ? obj : arr;
       })(),
-      contributions: format === 'nested' ? 
-        resp.reduce((acc, curr) => _.merge(acc, curr.contributions)) :
-        resp
-          .reduce((list, curr) => [...list, ...curr.contributions], [])
-          .sort((a, b) => {
-            if (a.date < b.date) return 1;
-            else if (a.date > b.date) return -1;
-            return 0;
-          }),
+      contributions:
+        format === "nested"
+          ? resp.reduce((acc, curr) => _.merge(acc, curr.contributions))
+          : resp
+              .reduce((list, curr) => [...list, ...curr.contributions], [])
+              .sort((a, b) => {
+                if (a.date < b.date) return 1;
+                else if (a.date > b.date) return -1;
+                return 0;
+              })
     };
   });
 }
 
-module.exports = fetchDataForAllYears;
+module.exports = {
+  fetchDataForAllYears
+};

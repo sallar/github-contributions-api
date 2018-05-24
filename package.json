@@ -2,10 +2,10 @@
   "name": "github-contribution-api",
   "version": "1.0.0",
   "description": "Get contribution count and data for a Github user",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js",
+    "dev": "nodemon src/index.js",
+    "start": "node src/index.js",
     "deploy": "now --public && now alias",
     "test": "mocha -u bdd-lazy-var/global"
   },
