@@ -1,6 +1,10 @@
-# :octocat: Github Contributions API [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/sallar/github-contributions-canvas/blob/master/LICENSE) [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url]
+# :octocat: Github Contributions API 
 
-A simple API that returns number of Github contributions based on a users Github profile. This API is used for generating an image of user contributions [in this site](https://github-contributions.now.sh/)
+[![GitHub license][license-mit-image]][license-mit-url]
+[![Build Status][travis-image]][travis-url] 
+[![Dependency Status][daviddm-image]][daviddm-url]
+
+>A simple API that returns number of Github contributions based on a users Github profile. This API is used for generating an image of user contributions [in this site](https://github-contributions.now.sh/)
 
 ## How to run
 
@@ -68,8 +72,6 @@ https://github-contributions-api.now.sh/v1/GITHUB_USERNAME?format=nested
 }
 ```
 
-
-
 ## Contributing
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
@@ -82,6 +84,8 @@ Every release, along with the migration instructions, is documented on the Githu
 
 [MIT license](LICENSE) © Sallar Kaboli
 
+[license-mit-image]: https://img.shields.io/badge/license-MIT-blue.svg
+[license-mit-url]: https://github.com/sallar/github-contributions-canvas/blob/master/LICENSE
 [travis-image]: https://travis-ci.com/sallar/github-contributions-api.svg?branch=master
 [travis-url]: https://travis-ci.com/sallar/github-contributions-api
 [daviddm-image]: https://david-dm.org/sallar/github-contributions-api.svg?theme=shields.io
