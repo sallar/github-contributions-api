@@ -2,7 +2,7 @@ const Twitter = require("twitter");
 const VError = require("verror").WError;
 const dataUriToBuffer = require("data-uri-to-buffer");
 
-module.exports = function(alerts, base64data) {
+module.exports = function(alerts) {
   const twitter = {};
 
   twitter.createClient =  function() {
