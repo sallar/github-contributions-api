@@ -33,7 +33,7 @@ app.get("/v1/:username", async (req, res, next) => {
     cache.put(key, data, 1000 * 3600); // Store for an hour
     res.json(data);
   } catch (err) {
-    next(new VError(err,  alerts.error.profileDisabled));
+    next(new VError(err, alerts.error.profileDisabled));
   }
 });
 
@@ -59,4 +59,4 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(8080, () =>  console.log(alerts.success.serverOn));
+app.listen(8080, () => console.log(alerts.success.serverOn));

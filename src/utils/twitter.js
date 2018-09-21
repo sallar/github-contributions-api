@@ -5,7 +5,7 @@ const dataUriToBuffer = require("data-uri-to-buffer");
 module.exports = function(alerts) {
   const twitter = {};
 
-  twitter.createClient =  function() {
+  twitter.createClient = function() {
     return new Twitter({
       consumer_key: process.env.TWITTER_CONSUMER_KEY,
       consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
