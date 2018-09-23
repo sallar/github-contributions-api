@@ -51,7 +51,7 @@ async function fetchDataForYear(url, year, format) {
         const date = $day
           .attr("data-date")
           .split("-")
-          .map(d => parseInt(d));
+          .map(d => parseInt(d, 10));
         const color = $day.attr("fill");
         const value = {
           date: $day.attr("data-date"),
@@ -61,7 +61,12 @@ async function fetchDataForYear(url, year, format) {
         };
         return { date, value };
       };
-      const obj = $days.get().reduce((o, day) => {
+
+      if (format !== "nested") {
+        return $days.get().map(day => parseDay(day).value);
+      }
+
+      return $days.get().reduce((o, day) => {
         const { date, value } = parseDay(day);
         const [y, m, d] = date;
         if (!o[y]) o[y] = {};
@@ -69,8 +74,6 @@ async function fetchDataForYear(url, year, format) {
         o[y][m][d] = value;
         return o;
       }, {});
-      const arr = $days.get().map(day => parseDay(day).value);
-      return format === "nested" ? obj : arr;
     })()
   };
 }
