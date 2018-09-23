@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const cache = require("memory-cache");
 const cors = require("cors");
 const VError = require("verror").WError;
-const { twitter, alerts, fetchDataForAllYears } = require("./utils");
+const { twitter, alerts, fetch } = require("./utils");
 
 const app = express();
 
@@ -29,7 +29,7 @@ app.get("/v1/:username", async (req, res, next) => {
     if (cached !== null) {
       return res.json(cached);
     }
-    const data = await fetchDataForAllYears(username, format);
+    const data = await fetch(username, format);
     cache.put(key, data, 1000 * 3600); // Store for an hour
     res.json(data);
   } catch (err) {
@@ -44,7 +44,8 @@ app.post("/v1/tweetMedia", (req, res, next) => {
     return next(new VError(alerts.error.imageInvalid));
   }
 
-  getMediaUrl(image)
+  twitter
+    .getMediaUrl(image)
     .then(mediaUrl =>
       res.json({
         mediaUrl
