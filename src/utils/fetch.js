@@ -28,7 +28,7 @@ async function fetchDataForYear(url, year, format) {
   const data = await fetch(`https://github.com${url}`);
   const $ = cheerio.load(await data.text());
   $days = $("rect.day");
-  const contribText = $(".js-contribution-graph h2")
+  const contribText = $(".js-yearly-contributions h2")
     .text()
     .trim()
     .match(/^([0-9,]+)\s/);
