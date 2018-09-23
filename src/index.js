@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const cache = require("memory-cache");
 const cors = require("cors");
 const VError = require("verror").WError;
-const { twitter, alerts, fetch } = require("./utils");
+const { getTwitterMediaUrl, alerts, fetch } = require("./utils");
 
 const app = express();
 
@@ -13,8 +13,6 @@ app.use(
     limit: "1mb"
   })
 );
-
-twitter.createClient();
 
 app.get("/", (req, res) => {
   res.send(`memsize=${cache.memsize()}`);
@@ -44,8 +42,7 @@ app.post("/v1/tweetMedia", (req, res, next) => {
     return next(new VError(alerts.error.imageInvalid));
   }
 
-  twitter
-    .getMediaUrl(image)
+  getTwitterMediaUrl(image)
     .then(mediaUrl =>
       res.json({
         mediaUrl
