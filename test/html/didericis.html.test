@@ -597,7 +597,7 @@
 </div>
 
   
-<div class="js-contribution-graph ">
+<div class="js-yearly-contributions ">
       <div class="contributions-setting float-right select-menu select-menu-modal-right js-menu-container js-select-menu">
   <button class="btn-link select-menu-button muted-link text-normal contributions-setting-link js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
     Contribution settings
