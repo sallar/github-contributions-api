@@ -6,7 +6,7 @@ const path = require("path");
 
 const sandbox = sinon.createSandbox();
 const nodeFetch = sandbox.stub();
-const { fetchDataForAllYears } = proxyquire("../src/fetch", {
+const { fetchDataForAllYears } = proxyquire("../src/utils/fetch", {
   "node-fetch": nodeFetch
 });
 
