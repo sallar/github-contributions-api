@@ -60,7 +60,7 @@ https://github-contributions-api.now.sh/v1/GITHUB_USERNAME?format=nested
            "count": 29,
            "color": "#239a3b"
          },
-         "39": {
+         "30": {
            "date": "2018-04-30",
            "count": 2,
            "color": "#c6e48b"
