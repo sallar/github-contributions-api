@@ -38,14 +38,14 @@
     "cors": "^2.8.4",
     "data-uri-to-buffer": "^2.0.0",
     "express": "^4.16.3",
-    "lodash": "^4.17.10",
+    "lodash": "^4.17.15",
     "memory-cache": "^0.2.0",
     "node-fetch": "^2.1.2",
     "twitter": "^1.7.1",
     "verror": "^1.10.0"
   },
   "devDependencies": {
-    "bdd-lazy-var": "^2.2.3",
+    "bdd-lazy-var": "^2.5.2",
     "chai": "^4.1.2",
     "husky": "^0.14.3",
     "lint-staged": "^7.1.2",
