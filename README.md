@@ -1,3 +1,7 @@
+## :warning: [Deprecation Notice]
+
+This repository is now deprecated and the code lives within it's parent project [sallar/github-contributions-chart](https://github.com/sallar/github-contributions-chart) which uses Next.js and serverless functions to run it.
+
 # :octocat: Github Contributions API 
 
 [![GitHub license][license-mit-image]][license-mit-url]
